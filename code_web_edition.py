@@ -55,8 +55,9 @@ def Reserve_slot():
     z=z-1
     if parkingLot[z] == 0:
         parkingLot[z] = 1
-        y = st.text_input("what is your license plate number? ")
-        n = st.text_input("what is the name of your car? ")
+        input1 = st.empty()
+        y = input1.text_input("what is your license plate number? ", key = 3)
+        n = input1.text_input("what is the name of your car? ", key = 2)
         reservedParkingSlots.append(parkingLot[z])
         reservedParkingSlotsLicensePlateNumber.update({z : y})
         string_money_made = str(money_made)
@@ -74,19 +75,25 @@ def Reserve_slot():
             "license_plate_number" : y,
             "car_name" : n,
             "cost" : 0
-        }
+            }
+            y = ""
+            n = ""
+            input1.text_input("what is your license plate number? ", value=y)
+            input1.text_input("what is the name of your car? ", value=n)
             with open(dbfile, "a") as outfile:
                 json.dump(data, outfile)
                 outfile.write("\n")
                 outfile.close()
-        st.json({
-            "time" : nowstr,
-            "slot" : z,
-            "action" : "free",
-            "license_plate_number" : y,
-            "car_name" : n,
-            "cost" : 10
-            })         
+            st.json({
+                "time" : nowstr,
+                "slot" : z,
+                "action" : "free",
+                "license_plate_number" : y,
+                "car_name" : n,
+                "cost" : 10
+                })     
+            st.text_input("what is your license plate number? ", value = "", key = 1)
+
     else:
         z = st.text_input("The slot you have chosen is occupied at the moment, please enter a different parking slot. ")
         y = st.text_input("what is your license plate number? ")
@@ -114,14 +121,17 @@ def Reserve_slot():
                 json.dump(data, outfile)
                 outfile.write("\n")
                 outfile.close()
-        st.json({
-            "time" : nowstr,
-            "slot" : z,
-            "action" : "free",
-            "license_plate_number" : y,
-            "car_name" : n,
-            "cost" : 10
-            })         
+            st.json({
+                "time" : nowstr,
+                "slot" : z,
+                "action" : "reserve",
+                "license_plate_number" : y,
+                "car_name" : n,
+                "cost" : 10
+                })    
+            z = " "
+            y = " "
+            n = " "     
 
 def Free_slot():
     global FreeSlots
@@ -129,7 +139,7 @@ def Free_slot():
     global string_money_made
     global revenue
 
-    z = int(input("What is the parking slot number? "))
+    z = int(st.text_input("What is the parking slot number? "))
     z=z-1
     if parkingLot[z] == 1:
         parkingLot[z] = 0
@@ -158,14 +168,17 @@ def Free_slot():
                 json.dump(data, outfile)
                 outfile.write("\n")
                 outfile.close()   
-        st.json({
-            "time" : nowstr,
-            "slot" : z,
-            "action" : "free",
-            "license_plate_number" : y,
-            "car_name" : n,
-            "cost" : 10
-            })         
+            st.json({
+                "time" : nowstr,
+                "slot" : z,
+                "action" : "free",
+                "license_plate_number" : y,
+                "car_name" : n,
+                "cost" : 10
+                })     
+            z = ""
+            y = " "
+            n = " "    
 
 
 def revenue_made():
@@ -185,7 +198,7 @@ def List():
     global FreeSlots
     slots = len(FreeParkingSlotsLicensePlateNumber)
     slotsstr = str(slots)
-    print("There are " + slotsstr + " slots available")
+    st.write("There are " + slotsstr + " slots available")
     print(FreeSlots)
 
 
