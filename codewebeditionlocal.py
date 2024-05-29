@@ -20,52 +20,51 @@ f = open(dbfile,"a")
 now = datetime.datetime.now()
 nowstr = now.strftime("%m/%d/%Y %H:%M:%S");
 
-def init_data():
-    res = requests.get(init_url, headers=headers)
-    idata = res.json()["data"]
-    print(idata)
-    return idata
+# def init_data():
+#     res = requests.get(init_url, headers=headers)
+#     idata = res.json()["data"]
+#     return idata
 
-initialization_count = 0
+# initialization_count = 0
 
-res = requests.get(init_url, headers=headers)
+# res = requests.get(init_url, headers=headers)
 
-i = {
-     "init" : "one",
-     "first": True
-    }
-idata = init_data()
-idata.append(i)
+# i = {
+#      "init" : "one",
+#      "first": True
+#     }
+# data = init_data()
+# data.append(i)
 
-res = requests.put(init_url, headers=headers, data=json.dumps(idata))
+# res = requests.put(init_url, headers=headers, data=json.dumps(data))
 
 
-if (len(idata) <= 1):  
-    parkingLot = [0] * 10 
+#if (data.length() <= 1):  
+parkingLot = [0] * 10 
     #reservedParkingSlots = []
     #reservedParkingSlotsLicensePlateNumber = {}
-    FreeParkingSlotsLicensePlateNumber = [0] * 10
-    global rows
-    global cols
-    rows, cols = (10, 5) 
-    slots=[ ([""] * cols) for row in range(rows) ]
-    number_of_transactions = []
-    money_made = 0
-    print(" initial slots: ")
-    print(slots) 
-    FreeSlots = {
-        1 : "free",
-        2 : "free",
-        3 : "free",
-        4 : "free",
-        5 : "free",
-        6 : "free",
-        7 : "free",
-        8 : "free",
-        9 : "free",
-        10 : "free"
-        }
-    initialization_count += 1
+FreeParkingSlotsLicensePlateNumber = [0] * 10
+global rows
+global cols
+rows, cols = (10, 5) 
+slots=[ ([""] * cols) for row in range(rows) ]
+number_of_transactions = []
+money_made = 0
+print(" initial slots: ")
+print(slots) 
+FreeSlots = {
+    1 : "free",
+    2 : "free",
+    3 : "free",
+    4 : "free",
+    5 : "free",
+    6 : "free",
+    7 : "free",
+    8 : "free",
+    9 : "free",
+    10 : "free"
+    }
+    #initialization_count += 1
 
 
 
@@ -79,15 +78,15 @@ def Reserve_slot():
     global string_money_made
     global parkingLot
 
-    parkingLot = save_information()
-    #z = int(st.selectbox("which slot do you want to reserve?", list(FreeSlots.keys())))
+    #parkingLot = save_information()
+    z = int(st.selectbox("which slot do you want to reserve?", list(FreeSlots.keys())))
     z=z-1
     if parkingLot[z] == 0:
         parkingLot[z] = 1
-        #inputy = st.empty()
-        #inputn = st.empty()
-        #y = inputy.text_input("what is your license plate number? ", key = 3)
-        #n = inputn.text_input("what is the name of your car? ", key = 2)
+        inputy = st.empty()
+        inputn = st.empty()
+        y = inputy.text_input("what is your license plate number? ", key = 3)
+        n = inputn.text_input("what is the name of your car? ", key = 2)
         #reservedParkingSlots.append(parkingLot[z])
         #reservedParkingSlotsLicensePlateNumber.update({z : y})
         #string_money_made = str(money_made)
@@ -111,15 +110,15 @@ def Reserve_slot():
             inputn.text_input("what is the name of your car? ", value="")
             #st.text_input("what is your license plate number? ", value = "", key = 1)
 
-           # return data
-           # res = requests.get(store_url, headers=headers)
-           # data = res.json()["data"]
+             # return data
+             # res = requests.get(store_url, headers=headers)
+             # data = res.json()["data"]
             #return data
-            # return data
-            # with open(dbfile, "a") as outfile:
-            #     json.dump(data, outfile)
-            #     outfile.write("\n")
-            #     outfile.close()
+            #return data
+            with open(dbfile, "a") as outfile:
+                json.dump(d, outfile)
+                outfile.write("\n")
+                outfile.close()
             st.json({
                 "time" : nowstr,
                 "slot" : z,
@@ -128,11 +127,11 @@ def Reserve_slot():
                 "car_name" : n,
                 "cost" : 10
             })
-            data = load_data()
-            data.append(d)
-            res = requests.put(store_url, headers=headers, data=json.dumps(data))
-            if parkingLot[z] == 1:
-                print("hello")
+            # data = load_data()
+            # data.append(d)
+            # res = requests.put(store_url, headers=headers, data=json.dumps(data))
+            # if parkingLot[z] == 1:
+            #     print("hello")
     else:
         z = int(st.selectbox("The slot you have chosen is occupied at the moment, please enter a different parking slot. ", list(FreeSlots.keys())))
         y = st.text_input("what is your license plate number? ")
@@ -156,14 +155,14 @@ def Reserve_slot():
             "car_name" : n,
             "cost" : 0
         }
-          #  return data
-          #  res = requests.get(store_url, headers=headers)
-           # data = res.json()["data"]
-          #  return data
-            # with open(dbfile, "a") as outfile:
-            #     json.dump(data, outfile)
-            #     outfile.write("\n")
-            #     outfile.close()
+             #  return data
+             #  res = requests.get(store_url, headers=headers)
+             # data = res.json()["data"]
+             #  return data
+            with open(dbfile, "a") as outfile:
+                json.dump(d, outfile)
+                outfile.write("\n")
+                outfile.close()
             st.json({
                 "time" : nowstr,
                 "slot" : z,
@@ -172,13 +171,13 @@ def Reserve_slot():
                 "car_name" : n,
                 "cost" : 10
                 })      
-            data = load_data()
-            data.append(d)
-            res = requests.put(store_url, headers=headers, data=json.dumps(data))
+            # data = load_data()
+            # data.append(d)
+            # res = requests.put(store_url, headers=headers, data=json.dumps(data))
 
 
 
-def load_data():
+#def load_data():
     # now = datetime.datetime.now()
     # nowstr = now.strftime("%m/%d/%Y %H:%M:%S")
     # d = {
@@ -195,22 +194,22 @@ def load_data():
     # else: 
     #     data = []
     # return data
-    res = requests.get(store_url, headers=headers)
-    data = res.json()["data"]
-    return data
+    # res = requests.get(store_url, headers=headers)
+    # data = res.json()["data"]
+    # return data
 
 
-def save_information():
-    res = requests.get(store_url, headers=headers).json()['data']
-    parkingLot = [0,0,0,0,0,0,0,0,0,0]
-    for item in res:
-        print(item)
-        z = item["slot"]
-        if (item["action"] == "reserve"):
-            parkingLot[z-1] = 1
-        if (item["action"] == "free"):
-            parkingLot[z-1] = 0
-    return parkingLot
+# def save_information():
+#     res = requests.get(store_url, headers=headers).json()['data']
+#     parkingLot = [0,0,0,0,0,0,0,0,0,0]
+#     for item in res:
+#         print(item)
+#         z = item["slot"]
+#         if (item["action"] == "reserve"):
+#             parkingLot[z-1] = 1
+#         if (item["action"] == "free"):
+#             parkingLot[z-1] = 0
+#     return parkingLot
 
 def Free_slot():
     global FreeSlots
@@ -249,14 +248,14 @@ def Free_slot():
             "car_name" : n,
             "cost" : 10
             }
-            #return data
-            #res = requests.get(store_url, headers=headers)
-            #data = res.json()["data"]
-            #return data
-            # with open(dbfile, "a") as outfile:
-            #     json.dump(data, outfile)
-            #     outfile.write("\n")
-            #     outfile.close()   
+            # return data
+            # res = requests.get(store_url, headers=headers)
+            # data = res.json()["data"]
+            # return data
+            with open(dbfile, "a") as outfile:
+                json.dump(d, outfile)
+                outfile.write("\n")
+                outfile.close()   
             st.json({
                 "time" : nowstr,
                 "slot" : z,
@@ -265,9 +264,9 @@ def Free_slot():
                 "car_name" : n,
                 "cost" : 10
                 })     
-            data = load_data()
-            data.append(d)
-            res = requests.put(store_url, headers=headers, data=json.dumps(data))
+            # data = load_data()
+            # data.append(d)
+            # res = requests.put(store_url, headers=headers, data=json.dumps(data))
 
 def revenue_made():
     # infile = open(dbfile, 'r')
@@ -280,7 +279,7 @@ def revenue_made():
     except :
        print("No DATA ...")
        revenue = 0
-    st.write("The revenue is " + str(revenue))
+    st.write("The revenue is 10 dollars")
 
 
 def List():
@@ -356,14 +355,11 @@ def menu():
 menu()
 graph_val()
 if choice == 'reserve':
-    z = int(st.selectbox("which slot do you want to reserve?", list(FreeSlots.keys())))
-    y = inputy.text_input("what is your license plate number? ", key = 3)
-    n = inputn.text_input("what is the name of your car? ", key = 2)
-    load_data()
+    #load_data()
     Reserve_slot()
 elif choice == 'free':
     Free_slot()
-    load_data()
+    #load_data()
 elif choice == 'revenue made':
     revenue_made()
 elif choice == 'list':
